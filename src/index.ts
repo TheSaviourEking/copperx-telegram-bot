@@ -1,32 +1,29 @@
-import bot from './bot';
-import Pusher from 'pusher';
-import { pusherAuth } from './api';
-import dotenv from 'dotenv';
-dotenv.config();
+import { setupBot } from './bot';
+import { config } from './config';
 
-const pusher = new Pusher({
-    appId: process.env.PUSHER_APP_ID!,
-    key: process.env.PUSHER_KEY!,
-    secret: process.env.PUSHER_SECRET!,
-    cluster: process.env.PUSHER_CLUSTER!,
-});
+async function main() {
+  try {
+    // Initialize the bot
+    const bot = setupBot();
 
-bot.launch().then(() => console.log('Bot started'));
+    // Start the bot
+    await bot.launch();
+    console.log('🚀 Bot is running successfully!');
+    console.log('ℹ️ Users can type /start for an intro or /help for commands.');
 
-// Pusher setup (simplified - requires organizationId from profile)
-bot.on('message', async (ctx) => {
-    const session = sessions[ctx.chat.id];
-    if (!session?.token) return;
-
-    const profile = await getProfile(session.token);
-    const organizationId = profile.data.organizationId;
-    const channel = pusher.subscribe(`private-org-${organizationId}`);
-
-    channel.bind('deposit', (data) => {
-        ctx.reply(`💰 *New Deposit Received*\n${data.amount} USDC deposited on Solana`);
+    // Enable graceful stop with feedback
+    process.once('SIGINT', () => {
+      bot.stop('SIGINT');
+      console.log('🛑 Bot stopped via SIGINT');
     });
-});
+    process.once('SIGTERM', () => {
+      bot.stop('SIGTERM');
+      console.log('🛑 Bot stopped via SIGTERM');
+    });
+  } catch (error) {
+    console.error('❌ Error starting bot:', error);
+    process.exit(1);
+  }
+}
 
-// Graceful shutdown
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'));
+main();
