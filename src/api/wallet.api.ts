@@ -15,7 +15,6 @@ class WalletApi extends ApiClient {
     }
 
     async getWallets(token?: string) {
-        console.log(this.endpoints.list, token, 'getting wallets')
         const response = await this.get(this.endpoints.list, token);
         return response.data;
     }
