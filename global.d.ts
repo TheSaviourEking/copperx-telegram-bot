@@ -51,6 +51,7 @@ interface AuthService {
     logout(userId: number): Promise<boolean>;
     isAuthenticated(userId: number): boolean;
     getToken(userId: number): string | undefined;
+    getUserProfile(userId: number): Promise<any>;
 }
 
 interface BotConfig {
