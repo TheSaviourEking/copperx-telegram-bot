@@ -14,6 +14,11 @@ const apiConfig: ApiConfig = {
             balances: '/api/wallets/balances',
             default: '/api/wallets/default'
         },
+        kyc: {
+            list: '/api/kyc'
+        },
+        transfer: { send: '/transfer/send' },
+        transactions: { list: '/transactions', details: '/transactions' },
         // ...other endpoints
     }
 };
