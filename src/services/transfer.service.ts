@@ -4,12 +4,16 @@ import { sessionManager } from '../state/session';
 import authService from './auth.service';
 import walletService from './wallet.service';
 import { logger } from '../utils/logger';
+import TransferApi from '../api/transfer.api';
+import TransactionsApi from '../api/transactions.api';
 
 class TransferServiceImpl implements TransferService {
     private transferApi: TransferApi;
+    private transactionApi: any
 
     constructor(transferApi: TransferApi) {
         this.transferApi = transferApi;
+        this.transactionApi = transactionApi;
     }
 
     async getAvailableWallets(userId: number): Promise<any[]> {
@@ -89,8 +93,10 @@ class TransferServiceImpl implements TransferService {
                 throw new Error('User not authenticated');
             }
 
-            const token = this.getToken(userId);
-            const transactions = await this.transferApi.getTransactions(token, walletId);
+            const token = this.getToken(userId) || '';
+            console.log('transferService', token, walletId);
+            // const transactions = await this.transferApi.getTransactions(token, walletId);
+            const transactions = await this.transactionApi.getTransactions(token, walletId);
 
             return transactions;
         } catch (error) {
@@ -125,8 +131,8 @@ class TransferServiceImpl implements TransferService {
 }
 
 // Initialize with DI
-// const transferApi = new TransferApi();
-// const transferService = new TransferServiceImpl(transferApi);
-const transferService = new TransferServiceImpl('iii');
+const transferApi = new TransferApi();
+const transactionApi = new TransactionsApi();
+const transferService = new TransferServiceImpl(transferApi, transactionApi);
 
 export default transferService;

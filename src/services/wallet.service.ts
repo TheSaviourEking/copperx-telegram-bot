@@ -18,9 +18,7 @@ class WalletServiceImpl implements WalletService {
             }
 
             const token = this.getToken(userId);
-            console.log('in service to get wallets')
             const wallets = await this.walletApi.getWallets(token);
-            console.log('service wallets', wallets);
 
             // Cache wallets in session for quick access
             const session = sessionManager.getSession(String(userId));
@@ -96,7 +94,6 @@ class WalletServiceImpl implements WalletService {
     }
 
     isAuthenticated(userId: number): boolean {
-        console.log(authService.isAuthenticated(userId), 'auth')
         return authService.isAuthenticated(userId);
     }
 
