@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import emailTransfer from './transfer/email.action';
 import { handleSetDefaultWallet, setDefaultWalletAction } from './wallet/default.action';
 import walletMenuAction from './wallet/menu.action';

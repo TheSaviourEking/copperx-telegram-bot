@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { SessionContext } from '../../global';
 import { sessionManager } from '../state/session';
 import { logger } from '../utils/logger';

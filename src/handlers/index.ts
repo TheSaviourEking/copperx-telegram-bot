@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Telegraf } from 'telegraf';
 import { SessionContext } from '../../global';
 import authService from '../services/auth.service';

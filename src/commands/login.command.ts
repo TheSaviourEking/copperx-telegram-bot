@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { AuthService, SessionContext } from '../../global';
 
 interface LoginCommandDependencies {

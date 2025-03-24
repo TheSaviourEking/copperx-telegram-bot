@@ -1,4 +1,7 @@
 import { BotConfig } from "../../global";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const botConfig: BotConfig = {
     token: process.env.TELEGRAM_BOT_TOKEN || '',

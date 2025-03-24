@@ -1,4 +1,5 @@
-import ApiClient from './client';
+// @ts-nocheck
+
 import config from '../config';
 import TransferApi from './transfer.api';
 

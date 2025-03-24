@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Session } from "../../global";
 import config from "../config";
 

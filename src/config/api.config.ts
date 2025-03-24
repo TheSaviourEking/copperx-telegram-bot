@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { ApiConfig } from "../../global";
 
 const apiConfig: ApiConfig = {

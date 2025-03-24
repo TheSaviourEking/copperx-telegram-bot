@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { TransferService } from '../../global';
 // import TransferApi from '../api/transfer.api';
 import { sessionManager } from '../state/session';

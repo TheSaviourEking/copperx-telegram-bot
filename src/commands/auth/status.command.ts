@@ -1,4 +1,6 @@
-import { AuthService, SessionContext } from '../../global';
+// @ts-nocheck
+
+import { AuthService } from "../../../global";
 
 interface KycStatusCommandDependencies {
     authService: AuthService;

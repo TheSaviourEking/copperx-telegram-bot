@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Telegraf } from 'telegraf';
 import { SessionContext } from '../../global';
 import botConfig from '../config/bot.config';

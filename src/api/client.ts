@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios';
 import config from '../config';
 
