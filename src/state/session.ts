@@ -141,7 +141,7 @@ function withPersistence<T extends keyof typeof sessionManager>(
 const persistentSessionManager = {
     ...sessionManager,
     getSession: withPersistence('getSession', true),
-    clearSession: withPersistence('clearSession', false) // Already removes file
+    clearSession: withPersistence('clearSession', false)
 };
 
 export { persistentSessionManager as sessionManager };
