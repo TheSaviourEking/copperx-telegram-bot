@@ -1,3 +1,5 @@
+import keyboards from '../ui/keyboards'; 
+
 class StartCommand {
     get command(): string {
         return 'start';
@@ -13,18 +15,12 @@ class StartCommand {
         const welcomeMessage = `
 Hello ${userName}! 👋
 
-Welcome to the Crypto Wallet Bot. Here's what you can do:
-
-/login - Connect your wallet
-/balance - View your wallet balances
-/send - Send crypto to another user
-/withdraw - Withdraw crypto to an external wallet
-/help - Show this help message
-
-Get started by logging in with /login
+Welcome to the Crypto Wallet Bot. Here’s what you can do:
 `;
 
-        return ctx.reply(welcomeMessage);
+        await ctx.reply(welcomeMessage.trim(), {
+            reply_markup: keyboards.getMainMenuKeyboard(),
+        });
     }
 }
 
