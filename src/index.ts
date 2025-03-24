@@ -1,8 +1,4 @@
-// import { Bot, bot } from './core/bot';
-import commandRegistry from './commands';
-import { errorHandler } from './handlers/error.handler';
-// import { sessionMiddleware } from './core/middleware';
-import { logger } from './utils/logger';
+const http = require('http');
 
 import dotenv from 'dotenv';
 import { bot } from './core/bot';
@@ -21,4 +17,15 @@ console.log('started')
 // bot.catch(errorHandler);
 
 // Start the bot
+
+
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Hello World\n');
+});
 bot.launch()
+
+const port = process.env.PORT || 8000;
+server.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
