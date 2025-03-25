@@ -123,7 +123,10 @@ function decodeNetworkId(networkId: string | number): string {
         "512512": "CMP",
         "13381": "Phoenix",
         "35": "TBWG Chain",
-        "4337": "Beam"
+        "4337": "Beam",
+
+        // redifining for stark
+        "23434": "StarkNet",
     };
 
     // Return the network name or "Unknown Network"
