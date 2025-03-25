@@ -15,7 +15,7 @@ class StartCommand {
         const welcomeMessage = `
 Hello ${userName}! 👋
 
-Welcome to the Crypto Wallet Bot. Here’s what you can do:
+Welcome to the Copperx Payout Bot. Here's what you can do:
 `;
 
         await ctx.reply(welcomeMessage.trim(), {

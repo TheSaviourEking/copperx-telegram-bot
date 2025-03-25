@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { AuthService, SessionContext } from '../../global';
 
 interface ProfileCommandDependencies {
@@ -24,7 +22,7 @@ class ProfileCommand {
         return 'View and manage your profile';
     }
 
-    async handle(ctx: SessionContext): Promise<void> {
+    async handle(ctx: SessionContext): Promise<any> {
         const userId = ctx.from?.id;
 
         if (!userId) {
@@ -50,14 +48,7 @@ class ProfileCommand {
             const messageText = this.formatProfileMessage(userProfile);
 
             // Send profile information with action keyboard
-            const keyboard = this.keyboards?.getProfileOptionsKeyboard() || {
-                inline_keyboard: [
-                    [{ text: '✏️ Edit Profile', callback_data: 'edit_profile' }],
-                    [{ text: '🔑 Security Settings', callback_data: 'security_settings' }],
-                    [{ text: '📬 Notification Preferences', callback_data: 'notification_settings' }],
-                    [{ text: '💼 Wallet Management', callback_data: 'wallet_menu' }]
-                ]
-            };
+            const keyboard = this.keyboards?.getProfileOptionsKeyboard() || null;
 
             return ctx.reply(messageText, {
                 parse_mode: 'Markdown',
@@ -118,7 +109,7 @@ class ProfileCommand {
     }
 
     // Handle profile edit callback
-    async handleEditProfile(ctx: SessionContext): Promise<void> {
+    async handleEditProfile(ctx: SessionContext): Promise<any> {
         const userId = ctx.from?.id;
 
         if (!userId || !this.authService.isAuthenticated(userId)) {
@@ -133,12 +124,7 @@ class ProfileCommand {
             {
                 parse_mode: 'Markdown',
                 reply_markup: {
-                    inline_keyboard: [
-                        [{ text: 'Change Email', callback_data: 'change_email' }],
-                        [{ text: 'Update Notification Settings', callback_data: 'update_notifications' }],
-                        [{ text: 'Complete KYC', callback_data: 'start_kyc' }],
-                        [{ text: '« Back to Profile', callback_data: 'back_to_profile' }]
-                    ]
+                    inline_keyboard: this.keyboards.getProfileEditKeyboard().inline_keyboard
                 }
             }
         );
