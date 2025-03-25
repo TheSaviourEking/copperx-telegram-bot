@@ -55,11 +55,21 @@ class TransferServiceImpl implements TransferService {
             }
 
             const token = this.getToken(userId);
-            const result = await this.transferApi.sendFunds(token, {
-                recipientId,
-                walletId,
-                amount
-            });
+            // {
+            //     "walletAddress": "string",
+            //     "email": "string",
+            //     "payeeId": "string",
+            //     "amount": "9223372036854775807",
+            //     "purposeCode": "self",
+            //     "currency": "USD"
+            //   }
+            // const result = await this.transferApi.sendFunds(token, {
+            //     recipientId,
+            //     walletId,
+            //     amount
+            // });
+
+            const result = await this.transferApi.sendFunds();
 
             return result;
         } catch (error) {
