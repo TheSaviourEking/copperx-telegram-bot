@@ -19,6 +19,7 @@ async function setDefaultWalletAction(ctx: SetDefaultWalletActionContext) {
         }
 
         const wallets = await walletService.getWallets(userId);
+        const balances = await walletService.getBalances(userId);
         if (!wallets || wallets.length === 0) {
             await ctx.editMessageText('No wallets found. Please create a wallet first.', {
                 reply_markup: { inline_keyboard: [] },
@@ -26,19 +27,9 @@ async function setDefaultWalletAction(ctx: SetDefaultWalletActionContext) {
             return;
         }
 
-        let inlineKeyboard = wallets.map((wallet) => [
-            {
-                text: `${wallet.id} (${decodeNetworkId(wallet.network)})`,
-                callback_data: `select_default_wallet:${wallet.id}`,
-            },
-        ]);
-
-        // Add the cancel button
-        inlineKeyboard = keyboards.addCancelButton(inlineKeyboard);
-
         const uniqueText = `Please select a wallet to set as your default:\u200B`;
         await ctx.editMessageText(uniqueText, {
-            reply_markup: { inline_keyboard: inlineKeyboard },
+            reply_markup: { inline_keyboard: keyboards.getWalletSelectionKeyboard(balances).inline_keyboard },
         });
     } catch (err) {
         logger.error('Error in setDefaultWalletAction:', err);
@@ -50,7 +41,7 @@ async function setDefaultWalletAction(ctx: SetDefaultWalletActionContext) {
 
 async function handleSetDefaultWallet(ctx: SetDefaultWalletActionContext, walletId: string) {
     try {
-        const userId = ctx.from.id;
+        const userId = ctx.from?.id;
         if (!userId || !walletId) {
             throw new Error('Invalid user ID or wallet ID');
         }
@@ -77,39 +68,5 @@ async function handleSetDefaultWallet(ctx: SetDefaultWalletActionContext, wallet
         });
     }
 }
-
-// async function handleSetDefaultWallet(ctx:SetDefaultWalletActionContext, walletId: string) {
-//     try {
-//         const wallet = await walletService.setDefaultWallet(ctx.from.id, walletId);
-
-//         // await ctx.editMessageText(`Wallet ${walletId} has been set as your default wallet.`, {
-//         //     reply_markup: {
-//         //         inline_keyboard: [
-//         //             [{ text: '« Back to Wallet Menu', callback_data: 'wallet_menu' }]
-//         //         ]
-//         //     }
-//         // });
-
-//         await ctx.editMessageText(`*Wallet ${walletId} has been set as your default wallet.*`, {
-//             parse_mode: 'Markdown',
-//             reply_markup: {
-//                 inline_keyboard: [
-//                     [{ text: '« Back to Wallet Menu', callback_data: 'wallet_menu' }]
-
-//                 ]
-//             }
-//         });
-
-//     } catch (error) {
-//         logger.error(`Error setting default wallet:`, error);
-//         await ctx.editMessageText("An error occurred. Please try again.", {
-//             reply_markup: {
-//                 inline_keyboard: [
-//                     [{ text: '« Back to Wallet Menu', callback_data: 'wallet_menu' }]
-//                 ]
-//             }
-//         });
-//     }
-// }
 
 export { setDefaultWalletAction, handleSetDefaultWallet };

@@ -24,30 +24,23 @@ async function walletMenuAction(ctx: WalletMenuActionContext) {
         if (!wallets || wallets.length === 0) {
             await ctx.editMessageText('No wallets found. Please create a wallet first.', {
                 reply_markup: {
-                    inline_keyboard: keyboards.addCancelButton([]),
+                    inline_keyboard: keyboards.getCancelButton(),
                 },
             });
             return;
         }
 
-        const inlineKeyboard = [
-            [{ text: 'Set Default Wallet', callback_data: 'set_default_wallet' }],
-            [{ text: 'View Balances', callback_data: 'view_balances' }],
-            [{ text: 'Deposit', callback_data: 'deposit' }],
-            [{ text: 'Send Funds', callback_data: 'transfer_options' }],
-            [{ text: 'Transaction History', callback_data: 'transactions' }],
-        ];
 
         await ctx.editMessageText('Wallet Menu:', {
             reply_markup: {
-                inline_keyboard: keyboards.addCancelButton(inlineKeyboard),
+                inline_keyboard: keyboards.getWalletOptions().inline_keyboard,
             },
         });
     } catch (error) {
         logger.error('Error in walletMenuAction:', error);
         await ctx.editMessageText('An error occurred while loading the wallet menu. Please try again.', {
             reply_markup: {
-                inline_keyboard: keyboards.addCancelButton([keyboards.getBackToWalletMenuButton()]),
+                inline_keyboard: keyboards.getMainMenuKeyboard().inline_keyboard
             },
         });
     }

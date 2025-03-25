@@ -15,20 +15,10 @@ async function cancelAction(ctx) {
             ctx.session.selectedWallet = null;
         }
 
-        // Get main menu keyboard
-        // const mainMenuKeyboard = keyboards.getMainMenuKeyboard?.() || {
-        //     inline_keyboard: [
-        //         [{ text: '💼 Wallet Options', callback_data: 'wallet_menu' }],
-        //         [{ text: '👤 Profile', callback_data: 'profile_menu' }],
-        //         [{ text: '❓ Help', callback_data: 'help' }]
-        //     ]
-        // };
-
         // Check if this is called from a callback query (inline button)
         if (ctx.callbackQuery) {
             // Update the existing message
             await ctx.editMessageText("Operation cancelled. What would you like to do next?", {
-                // reply_markup: { inline_keyboard: mainMenuKeyboard.inline_keyboard }
                 reply_markup: { inline_keyboard: keyboards.getMainMenuKeyboard().inline_keyboard}
             });
         } else {

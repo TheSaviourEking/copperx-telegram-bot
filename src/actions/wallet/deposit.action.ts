@@ -22,7 +22,7 @@ async function depositAction(ctx: DepositActionContext) {
         if (!wallets || wallets.length === 0) {
             await ctx.editMessageText('No wallets found. Please create a wallet first.', {
                 reply_markup: {
-                    inline_keyboard: keyboards.addCancelButton([]), // Empty keyboard with Cancel
+                    inline_keyboard: keyboards.getCancelButton(),
                 },
             });
             return;
@@ -35,18 +35,15 @@ async function depositAction(ctx: DepositActionContext) {
             },
         ]);
 
-        // Add Cancel button using keyboards.addCancelButton
-        inlineKeyboard = keyboards.addCancelButton(inlineKeyboard);
-
         const uniqueText = `Please select a wallet to deposit into: \u200B${Date.now()}`;
         await ctx.editMessageText(uniqueText, {
-            reply_markup: { inline_keyboard: inlineKeyboard },
+            inline_keyboard: keyboards.getCancelButton(),
         });
     } catch (err) {
         logger.error('Error in depositAction:', err);
         await ctx.editMessageText('An error occurred while fetching wallets. Please try again.', {
             reply_markup: {
-                inline_keyboard: keyboards.addCancelButton([]),
+                inline_keyboard: keyboards.getCancelButton(),
             },
         });
     }
@@ -54,6 +51,9 @@ async function depositAction(ctx: DepositActionContext) {
 
 // Step 2: Handle wallet selection and show deposit address
 async function handleDepositWallet(ctx: DepositActionContext, session: any, walletId: string) {
+    let inlineKeyboard = [
+        keyboards.getMainMenuKeyboard().inline_keyboard, 
+    ];
     try {
         const userId = ctx.from.id;
         if (!userId || !walletId) {
@@ -73,11 +73,6 @@ async function handleDepositWallet(ctx: DepositActionContext, session: any, wall
 
         logger.info(`Showing deposit address for wallet ${walletId}: ${depositAddress}`);
 
-        let inlineKeyboard = [
-            keyboards.getBackToWalletMenuButton(), // Back to Wallet Menu
-        ];
-        inlineKeyboard = keyboards.addCancelButton(inlineKeyboard); // Add Cancel
-
         await ctx.editMessageText(
             `Deposit to Wallet #${walletId} (${decodeNetworkId(selectedWallet.network)}):\n\n` +
             `*${depositAddress}*\n\n` +
@@ -89,10 +84,7 @@ async function handleDepositWallet(ctx: DepositActionContext, session: any, wall
         );
     } catch (error) {
         logger.error('Error in handleDepositWallet:', error);
-        let inlineKeyboard = [
-            keyboards.getBackToWalletMenuButton(),
-        ];
-        inlineKeyboard = keyboards.addCancelButton(inlineKeyboard);
+
         await ctx.editMessageText('An error occurred while retrieving the deposit address. Please try again.', {
             reply_markup: { inline_keyboard: inlineKeyboard },
         });

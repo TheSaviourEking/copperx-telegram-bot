@@ -5,7 +5,7 @@ import { handleSetDefaultWallet, setDefaultWalletAction } from './wallet/default
 import walletMenuAction from './wallet/menu.action';
 import { depositAction, handleDepositWallet } from './wallet/deposit.action';
 import transactionHistoryAction from './wallet/transaction.action';
-import { executeTransfer, handleTransferWallet, transferOptionsAction, transferWalletAction } from './transfer/transfer.action';
+import { executeTransfer, handleTransferWallet, transferOptionsAction, transferWalletAction, confirmTransfer } from './transfer/transfer.action'; // Import confirmTransfer
 import cancelAction from './cancel';
 
 interface Actions {
@@ -53,13 +53,25 @@ const actions: Actions = {
     if (!params) throw new Error('No wallet ID provided in callback');
     await handleTransferWallet(ctx, session, params);
   },
+  // New action to handle user input and call confirmTransfer
+  confirm_transfer_prompt: async (ctx, session, params) => {
+    if (!params) throw new Error('No transfer data provided');
+    const [amount, recipient] = params.split(' '); // Assuming params is "<amount> <address>"
+    if (!amount || !recipient) throw new Error('Invalid transfer format');
+    await confirmTransfer(ctx, session, amount, recipient);
+  },
+  // Adjusted confirm_transfer to handle the confirmation callback
   confirm_transfer: async (ctx, session, params) => {
     if (!params) throw new Error('No transfer data provided');
-    const [walletId, amount, recipient] = params.split(':');
-    await executeTransfer(ctx, session, params);
+    await executeTransfer(ctx, session, params); // Executes after user confirms
   },
+
   transactions: transactionHistoryAction,
+
+  // cancel action
   cancel: cancelAction,
+
+  // profile action
 };
 
 export default actions;
