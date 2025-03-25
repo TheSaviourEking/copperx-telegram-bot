@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nochec
 
 import { Telegraf } from 'telegraf';
 import { SessionContext } from '../../global';
