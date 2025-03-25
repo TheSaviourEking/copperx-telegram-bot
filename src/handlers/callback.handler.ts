@@ -38,7 +38,7 @@ const callbackHandler = (bot: any) => {
                 // Attempt to edit the message with an error notice
                 await ctx.editMessageText(`Error: ${error.message}`, {
                     reply_markup: {
-                        inline_keyboard: keyboards.addCancelButton([keyboards.getBackToWalletMenuButton()]),
+                        inline_keyboard: keyboards.getMainMenuKeyboard().inline_keyboard,
                     },
                 });
             } catch (editError) {
@@ -47,7 +47,7 @@ const callbackHandler = (bot: any) => {
                 try {
                     await ctx.reply(`Error: ${error.message}`, {
                         reply_markup: {
-                            inline_keyboard: keyboards.addCancelButton([keyboards.getBackToWalletMenuButton()]),
+                            inline_keyboard: keyboards.getMainMenuKeyboard().inline_keyboard,
                         },
                     });
                 } catch (replyError) {
