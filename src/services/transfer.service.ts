@@ -69,7 +69,7 @@ class TransferServiceImpl implements TransferService {
             //     amount
             // });
 
-            const result = await this.transferApi.sendFunds();
+            const result = await this.transferApi.sendFunds(token,);
 
             return result;
         } catch (error) {
