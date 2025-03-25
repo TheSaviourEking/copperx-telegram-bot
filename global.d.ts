@@ -52,6 +52,7 @@ interface AuthService {
     isAuthenticated(userId: number): boolean;
     getToken(userId: number): string | undefined;
     getUserProfile(userId: number): Promise<any>;
+    getKycStatus(userId: number): Promise<any>;
 }
 
 interface BotConfig {
