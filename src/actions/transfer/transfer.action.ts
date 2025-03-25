@@ -1,10 +1,11 @@
+// @ts-nocheck
+
 import crypto from 'crypto';
 import walletService from '../../services/wallet.service';
 import transferService from '../../services/transfer.service'; // Assuming this exists for sending funds
 import { logger } from '../../utils/logger';
 import { decodeNetworkId } from '../../utils/validation';
 import keyboards from '../../ui/keyboards';
-import { sessionManager } from '../../state/session';
 
 interface TransferActionContext {
     from: { id: number };

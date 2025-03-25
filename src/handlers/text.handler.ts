@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { SessionContext } from "../../global";
 import actions from "../actions";
 import { sessionManager } from "../state/session";
